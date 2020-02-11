@@ -1,0 +1,18 @@
+#./E-shop/docker-compose.yml
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    
+  web:
+    build:
+         context: ./manage.py 
+         dockerfile: DockerFile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./E-shop/:/account
+    ports:
+      - 8000:8000
+    env_file:
+      - ./env/django.env
