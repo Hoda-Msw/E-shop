@@ -1,18 +1,26 @@
-#./E-shop/docker-compose.yml
-version: '3.7'
-
+version: '3.1'
 services:
-  db:
-    image: postgres
-    
-  web:
-    build:
-         context: ./manage.py 
-         dockerfile: DockerFile
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./E-shop/:/account
+  server:
+    build: .
+    image: server_image
+    restart: on-failure
+    command: /usr/local/bin/run_server.sh
+    container_name: cloud_project
     ports:
       - 8000:8000
-    env_file:
-      - ./env/django.env
+    environment:
+      DATABASE_NAME: cloud
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: cloudPass
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+    links:
+      - db
+  db: # name of our mysql container
+    image: mysql:5.7
+    restart: always # always restart the container after reboot
+    environment: # environment variables -- mysql options in this case
+      MYSQL_ROOT_PASSWORD: cloudPass
+      MYSQL_DATABASE: cloud
+      MYSQL_USER: cloud
+      MYSQL_PASSWORD: cloudPass

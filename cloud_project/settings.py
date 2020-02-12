@@ -25,7 +25,6 @@ SECRET_KEY = 'cr^b3f&503)lx$&-$zr$cq6aluj8ujztr0r))r#xrff)%=vla5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -83,6 +82,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'USER': os.getenv('DATABASE_USERNAME'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT')
     }
 }
 
@@ -124,3 +127,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '155.138.220.5']
